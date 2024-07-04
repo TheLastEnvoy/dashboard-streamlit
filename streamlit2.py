@@ -37,7 +37,7 @@ for coluna in colunas_desejadas[2:]:  # A partir da terceira coluna até o final
 
 # Imputando valores nos NaNs (substituindo por zeros neste caso)
 imputer = SimpleImputer(strategy='constant', fill_value=0)
-dados_imputados = pd.DataFrame(imputer.fit_transform(dados[colunas_desejadas[2:]]))
+dados_imputados = pd.DataFrame(imputer.fit_transform(dados[colunas_desejadas[2:]]), columns=colunas_desejadas[2:])
 
 # Aplicando PCA para redução de dimensionalidade para visualização
 pca = PCA(n_components=2)
@@ -59,3 +59,10 @@ fig = px.scatter(
     title='Gráfico de dispersão com PCA - área X famílias assentadas'
 )
 st.plotly_chart(fig)
+
+# Tabela com os dados conforme a interação no gráfico
+selected_data = st.dataframe(dados_com_pca)  # Mostra a tabela completa inicialmente
+
+# Se desejar mostrar apenas os dados selecionados no gráfico, pode usar:
+# selected_data = st.dataframe(dados_com_pca.loc[fig.data[0].selectedpoints, :])
+
